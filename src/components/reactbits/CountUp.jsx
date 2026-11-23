@@ -14,7 +14,7 @@ export default function CountUp({ to, from = 0, duration = 2, decimals = 0, pref
     el.textContent = fmt(from);
     const tw = gsap.to(o, {
       v: to, duration, ease: 'power3.out', onUpdate: () => { el.textContent = fmt(o.v); },
-      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      scrollTrigger: { trigger: el, start: 'top bottom', once: true },
     });
     return () => { tw.scrollTrigger?.kill(); tw.kill(); };
   }, [to, from, duration, decimals, prefix, suffix]);

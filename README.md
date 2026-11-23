@@ -1,16 +1,16 @@
-# Halden Motor House — 3D Car Inventory
+# Halden Motor House — Car Inventory
 
-A dealership inventory site where every car is a live 3D render. Built with **React**, **three.js**, **GSAP** (ScrollTrigger + Flip) and components adapted from **React Bits**.
+A pre-owned car dealership site for a fictional showroom in Bengaluru, with real cars from a Maruti Swift to a Ferrari 458. Built with **React**, **three.js**, **GSAP** and components adapted from **React Bits**.
+
+**Live:** https://car-inventory-woad.vercel.app
 
 ## Features
 
-- **3D showroom hero**: a car on a lit turntable, with orbiting light ribbons, drifting dust and an aurora shader sky. Switch between featured models and the current car drives off as the next one rolls in.
-- **Scroll-scrubbed walkaround**: the section pins while the camera orbits the car (front three-quarter, side profile, rear, overhead), and spec callouts change at each stop. The story sections snap one scroll at a time.
-- **Inventory**: studio renders of each car are generated in the browser. Filter by body style, fuel, condition and budget; search; sort; save favourites. GSAP Flip animates the grid as results change.
-- **Vehicle configurator**: a drag-to-rotate 360° viewer with live repainting, a spec sheet, an EMI calculator and a test-drive request form.
-- **Finance**: an EMI calculator with a principal/interest split, a scroll-velocity marquee and spotlight service cards.
-
-Every car is generated in code from a side profile (`src/three/carFactory.js`): six body styles (coupé, sedan, SUV, roadster, pickup, hatchback) with real-time paint, rolling wheels and LED light signatures. No model files to download.
+- **3D feature car**: a Ferrari 458 Italia glTF model in a studio viewer. Drag to rotate it and preview it in six factory paint colours.
+- **Quick search**: pick a make, body type and budget, and the inventory filters to match.
+- **Inventory**: 13 real cars with photos, odometer readings, owner counts, prices and an EMI estimate. Filter by make, body, fuel and budget, then search, sort and save cars. GSAP Flip animates the grid as results change.
+- **Listing sheet**: a large photo, the full spec table, an inspection report, a finance estimate and a test-drive booking form.
+- **EMI calculator**, a **trade-in form** and showroom details.
 
 ## Run it
 
@@ -24,22 +24,19 @@ npm run build    # production build in dist/
 
 ```
 src/
-  App.jsx                 page + scroll choreography (ScrollTrigger timelines, snapping)
-  three/
-    carFactory.js         procedural car generator
-    studio.js             renderer, lighting, environment, floor
-    Stage.js              hero/walkaround scene (ribbons, particles, drive transitions)
-    renders.js            inventory studio renders + 360° viewer
-  components/reactbits/   SplitText, ShinyText, CountUp, SpotlightCard, Magnet,
-                          StarBorder, ScrollVelocity, ClickSpark, Aurora
-  sections/               Hero, Showroom, Inventory, CarModal, Finance, Chrome (nav/footer)
-  data/inventory.js       sample inventory + INR / EMI helpers
+  App.jsx                    page layout and shared state (filters, saved cars, open listing)
+  data/inventory.js          the cars, plus price / EMI helpers
+  three/FerrariViewer.js     three.js studio viewer for the Ferrari model
+  sections/                  Header, Hero, Inventory, CarSheet, Services (brands, how it works, finance, sell, footer)
+  components/reactbits/      SplitText, CountUp, ScrollVelocity (adapted from React Bits)
+public/
+  models/ferrari.glb         3D model (+ ambient-occlusion shadow)
+  draco/                     Draco decoder used to load the compressed model
 ```
-
-To use real stock, replace the array in `src/data/inventory.js` with data from an API. Each car needs a `body` (one of the six styles) and a `paint` colour.
 
 ## Credits
 
+- Car photos come from Wikimedia Commons and are used under their free licences. Each photographer is credited in the listing and in the site footer.
+- The Ferrari 458 Italia 3D model is by [vicent091036](https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6), taken from the three.js examples.
 - UI components are adapted from [React Bits](https://reactbits.dev) by David Haz.
-- 3D: [three.js](https://threejs.org). Motion: [GSAP](https://gsap.com).
-- Halden is a fictional brand, and all inventory, prices and addresses are sample data.
+- Halden Motor House is fictional. Car specs are real, but prices, kilometres and owner counts are sample data.
