@@ -2,18 +2,21 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { Flip } from 'gsap/Flip';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Doodle from '../components/Doodle.jsx';
 import { INVENTORY, MAKES, BODIES, FUELS, price, km, ordinal, emi } from '../data/inventory.js';
 
 gsap.registerPlugin(Flip, ScrollTrigger);
 
 export const START = { q: '', makes: [], body: 'all', fuel: 'all', max: Infinity, sort: 'recommended', saved: false };
 const SORTS = { recommended: 'Recommended', low: 'Price: low to high', high: 'Price: high to low', newest: 'Newest first', km: 'Lowest km' };
+const TONES = ['#ffd23f', '#7cc6fe', '#ff8f6b', '#7ee0b5', '#c3b5ff', '#ffb3d1'];
 const PRICE_STEPS = [500000, 1000000, 1500000, 2500000, 5000000, 10000000, 15000000, 20000000, Infinity];
 
 function Card({ car, saved, onSave, onOpen }) {
   const [failed, setFailed] = useState(false);
+  const i = INVENTORY.indexOf(car);
   return (
-    <article className="card">
+    <article className="card" style={{ '--tone': TONES[i % TONES.length], '--tilt': `${i % 2 ? 1.6 : -1.4}deg` }}>
       <button className="card-photo" onClick={() => onOpen(car)} aria-label={`Open ${car.year} ${car.name} ${car.variant}`}>
         {failed
           ? <span className="photo-missing">{car.make}</span>
@@ -28,7 +31,7 @@ function Card({ car, saved, onSave, onOpen }) {
         <p className="variant">{car.variant}</p>
         <p className="meta">{km(car.km)} · {car.fuel} · {car.trans} · {ordinal(car.owners)} owner</p>
         <div className="card-foot">
-          <strong className="price">{price(car.price)}</strong>
+          <strong className="price tag-shape">{price(car.price)}</strong>
           <span className="emi">EMI from ₹{Math.round(emi(car.price * 0.8, 9.5, 60)).toLocaleString('en-IN')}/mo</span>
         </div>
       </div>
@@ -84,7 +87,7 @@ export default function Inventory({ filters: f, setFilters, saved, onSave, onOpe
     <section id="inventory" className="inventory">
       <header className="section-head">
         <div>
-          <h2>Cars in stock</h2>
+          <h2>Cars in stock <Doodle type="squiggle" className="h2-squiggle" color="#ff5a36" width={4} /></h2>
           <p>Every listing shows the real odometer reading and owner count. Prices include RC transfer and the inspection report.</p>
         </div>
         <label className="search">

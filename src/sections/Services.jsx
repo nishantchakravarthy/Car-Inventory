@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Doodle from '../components/Doodle.jsx';
 import ScrollVelocity from '../components/reactbits/ScrollVelocity.jsx';
 import { INVENTORY, MAKES, inr, price, emi } from '../data/inventory.js';
 
@@ -14,9 +15,14 @@ export function HowItWorks() {
   ];
   return (
     <section className="how" aria-labelledby="how-title">
-      <h2 id="how-title">How buying works</h2>
+      <h2 id="how-title">How buying works <span className="hand">it’s honestly this easy</span></h2>
       <ol>
-        {steps.map(([t, d]) => <li key={t}><h3>{t}</h3><p>{d}</p></li>)}
+        {steps.map(([t, d], i) => (
+          <li key={t}>
+            <h3>{t}</h3><p>{d}</p>
+            {i < steps.length - 1 && <Doodle type="arrow" className="how-arrow" color="#141414" width={3} delay={0.2 + i * 0.3} />}
+          </li>
+        ))}
       </ol>
     </section>
   );
@@ -35,7 +41,7 @@ export function Finance() {
   return (
     <section id="finance" className="finance">
       <div className="finance-copy">
-        <h2>Work out the EMI</h2>
+        <h2>Work out the <span className="hl">EMI</span></h2>
         <p>Car loans from partner banks, arranged at the showroom. Rates depend on your credit profile; 9.5% is a typical figure for a pre-owned car loan, not an offer.</p>
       </div>
       <div className="calc">
@@ -79,7 +85,7 @@ export function Sell() {
   return (
     <section id="sell" className="sell">
       <div>
-        <h2>Selling or trading in?</h2>
+        <h2>Selling or trading in? <Doodle type="star" className="sell-star" color="#ffd23f" width={3} /></h2>
         <p>Bring your car to the showroom for a 45-minute inspection and a written offer, valid for 7 days. Use it against any car here, or take the money by bank transfer the same day.</p>
       </div>
       {sent ? (
@@ -103,7 +109,7 @@ export function Footer() {
     <footer id="visit" className="footer">
       <div className="visit">
         <div>
-          <h2>Visit the showroom</h2>
+          <h2>Come say hi <span className="hand">(the coffee’s free)</span></h2>
           <p>Halden Motor House, Old Airport Road, Bengaluru (demo address). Parking for 20 cars, and the coffee is free.</p>
         </div>
         <ul className="hours">
