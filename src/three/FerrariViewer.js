@@ -1,4 +1,4 @@
-// Studio viewer for the Ferrari 458 Italia glTF model (model by vicent091036, via the three.js examples).
+// Studio viewer for the Ferrari 458 Spider glTF model (model by vicent091036, via the three.js examples).
 // The car drives in on rolling wheels, dips its nose as it brakes, follows the mouse a little,
 // turns as the page scrolls, and can be dragged round and repainted.
 import * as THREE from 'three';

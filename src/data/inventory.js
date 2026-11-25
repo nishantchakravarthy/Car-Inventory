@@ -8,10 +8,10 @@ const filePage = (file) => `https://commons.wikimedia.org/wiki/File:${encodeURIC
 
 const raw = [
   {
-    id: 'ferrari-458', make: 'Ferrari', model: '458 Italia', variant: 'F1 DCT', year: 2013, km: 18400, fuel: 'Petrol', trans: 'Automatic',
-    engine: '4.5 L V8', power: 570, body: 'Coupé', owners: 2, reg: 'KA-03', price: 24500000, segment: 'premium', featured: true,
+    id: 'ferrari-458', make: 'Ferrari', model: '458 Spider', variant: 'F1 DCT, folding hard top', year: 2013, km: 18400, fuel: 'Petrol', trans: 'Automatic',
+    engine: '4.5 L V8', power: 570, body: 'Convertible', owners: 2, reg: 'KA-03', price: 24500000, segment: 'premium', featured: true,
     tag: 'Feature car', note: 'Full Ferrari service history, new clutch at 16,000 km, original paint.',
-    photo: { file: 'White Ferrari 458 Italia front.JPG', author: 'Tokumeigakarinoaoshima' },
+    photo: { file: 'Ferrari 458 Spider - Flickr - Alexandre Prévot (11) (cropped).jpg', author: 'Alexandre Prévot' },
   },
   {
     id: 'g63', make: 'Mercedes-AMG', model: 'G 63', variant: '4MATIC', year: 2022, km: 14100, fuel: 'Petrol', trans: 'Automatic',
