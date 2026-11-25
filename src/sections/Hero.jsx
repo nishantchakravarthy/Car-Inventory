@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { cutFor } from '../data/cuts.js';
 import CountUp from '../components/reactbits/CountUp.jsx';
 import Doodle from '../components/Doodle.jsx';
 import { FerrariViewer } from '../three/FerrariViewer.js';
@@ -14,11 +16,14 @@ export default function Hero({ onSearch, onOpen, reduceMotion }) {
   const root = useRef(null);
   const [paint, setPaint] = useState(PAINTS[0]);
   const [loaded, setLoaded] = useState(false);
+  const [pct, setPct] = useState(0);
   const [q, setQ] = useState({ make: 'all', body: 'all', budget: Infinity });
 
   useEffect(() => {
-    viewer.current = new FerrariViewer(canvas.current, { paint: PAINTS[0].hex, reduceMotion, onReady: () => setLoaded(true) });
-    return () => viewer.current?.dispose();
+    viewer.current = new FerrariViewer(canvas.current, { paint: PAINTS[0].hex, reduceMotion, onReady: () => setLoaded(true), onProgress: setPct });
+    // The car turns and sinks as the hero scrolls away.
+    const st = ScrollTrigger.create({ trigger: root.current, start: 'top top', end: 'bottom top', onUpdate: (s) => viewer.current?.setScroll(s.progress) });
+    return () => { st.kill(); viewer.current?.dispose(); };
   }, [reduceMotion]);
 
   useEffect(() => {
@@ -27,7 +32,8 @@ export default function Hero({ onSearch, onOpen, reduceMotion }) {
       gsap.from('.hero h1 .line', { yPercent: 100, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1 });
       gsap.from('.hero-copy > :not(h1)', { y: 16, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.07, delay: 0.3 });
       gsap.from('.stage-block', { scale: 0.94, rotate: -2, opacity: 0, duration: 0.9, ease: 'back.out(1.6)', delay: 0.1 });
-      gsap.from('.peek', { y: 40, rotate: 0, opacity: 0, duration: 0.8, ease: 'back.out(1.8)', stagger: 0.12, delay: 0.6 });
+      gsap.from('.peek', { y: 60, scale: 0.6, opacity: 0, duration: 0.9, ease: 'back.out(1.8)', stagger: 0.12, delay: 1.4 });
+      gsap.to('.peek', { y: '-=8', duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 0.4, delay: 2.4 });
     }, root);
     return () => ctx.revert();
   }, [reduceMotion]);
@@ -76,7 +82,7 @@ export default function Hero({ onSearch, onOpen, reduceMotion }) {
 
       <div className="collage">
         <figure className="stage-block">
-          <span className="scribble">{loaded ? 'drag me around!' : 'loading the 3D car…'}</span>
+          <span className="scribble">{loaded ? 'drag me around!' : `warming up the engine… ${pct}%`}</span>
           <Doodle type="arrow" className="scribble-arrow" color="#141414" width={3} delay={1.2} scroll={false} />
           <div className={`stage ${loaded ? 'ready' : ''}`}>
             <canvas ref={canvas} aria-label={`Interactive 3D model of the ${FEATURE.year} ${FEATURE.name}`} />
@@ -99,8 +105,8 @@ export default function Hero({ onSearch, onOpen, reduceMotion }) {
           </button>
         </figure>
         {PEEKS.map((c, i) => (
-          <button key={c.id} className={`peek peek-${i}`} onClick={() => onOpen(c)} aria-label={`Open the ${c.year} ${c.name} listing`}>
-            <img src={c.img} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
+          <button key={c.id} className={`peek peek-${i} ${cutFor(c) ? 'is-cut' : ''}`} onClick={() => onOpen(c)} aria-label={`Open the ${c.year} ${c.name} listing`}>
+            <img src={cutFor(c) || c.img} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
             <span>{c.model} · {price(c.price)}</span>
           </button>
         ))}

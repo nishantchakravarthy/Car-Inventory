@@ -319,3 +319,48 @@ legend b { font-family: var(--hand); font-size: 20px; color: var(--tomato); marg
   .sort span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+/* ---------- Motion upgrade: smooth scroll, stacked panels, cut-out cars ---------- */
+.header { position: fixed; left: 0; right: 0; }
+#smooth-content { padding-top: 70px; }
+.panel { position: relative; background: var(--ink); }
+.panel-inner { position: relative; background: var(--bg); will-change: transform; transform-origin: 50% 50%; }
+.panel-dim { position: absolute; inset: 0; z-index: 6; background: var(--ink); opacity: 0; visibility: hidden; pointer-events: none; }
+.panel + .panel { margin-top: -2px; }
+.panel + .panel > .panel-inner { border-radius: 36px 36px 0 0; border-top: 2px solid var(--ink); box-shadow: 0 -18px 40px rgba(20,20,20,.18); overflow: clip; }
+.panel-how > .panel-inner { background: var(--paper); }
+.panel-foot > .panel-inner { background: var(--ink); }
+.panel-foot .footer { margin-top: 0; }
+.panel-inv .brands { margin-top: 26px; }
+.how { border-block: 0; }
+
+/* Cut-out car stickers on colour blocks */
+.card { perspective: 900px; }
+.card-photo { transform-style: preserve-3d; will-change: transform; }
+.card-photo.is-cut { padding: 0; overflow: hidden; }
+.card-photo .sun { position: absolute; right: -14%; top: -22%; width: 62%; aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,.35); border: 2px solid rgba(20,20,20,.12); transform: translateZ(10px); }
+.card-photo .ground { position: absolute; left: 14%; right: 14%; bottom: 13%; height: 10%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20,20,20,.45), transparent); transition: transform .45s cubic-bezier(.3,1.5,.5,1), opacity .45s; }
+.card-photo.is-cut img { position: absolute; left: 5%; bottom: 15%; width: 90%; height: 72%; object-fit: contain; object-position: 50% 100%; border: 0; border-radius: 0; box-shadow: none; background: none; transform: translateZ(40px); transition: transform .45s cubic-bezier(.3,1.5,.5,1); }
+.card:hover .card-photo.is-cut img { transform: translateZ(60px) translateY(-12px) scale(1.07); }
+.card:hover .card-photo .ground { transform: scale(.82); opacity: .6; }
+
+.peek.is-cut { width: 200px; padding: 0; border: 0; background: none; box-shadow: none; }
+.peek.is-cut img { aspect-ratio: auto; height: auto; object-fit: contain; background: none; border-radius: 0; filter: drop-shadow(0 10px 6px rgba(20,20,20,.35)); }
+.peek.is-cut span { display: inline-block; margin-top: 2px; padding: 2px 10px; background: #fff; border: 2px solid var(--ink); border-radius: 999px; box-shadow: 2px 2px 0 var(--ink); }
+.peek-0.is-cut { left: -40px; bottom: -6px; }
+.peek-1.is-cut { left: 170px; bottom: -34px; }
+.peek-2.is-cut { left: 10px; top: -34px; width: 170px; }
+
+.sheet-photo.is-cut { position: relative; padding: 70px 22px 34px; overflow: hidden; }
+.sheet-photo.is-cut img { position: relative; z-index: 1; aspect-ratio: auto; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; background: none; transform: none; max-height: 300px; margin: 0 auto; }
+.sheet-photo .ground { position: absolute; left: 18%; right: 18%; bottom: 58px; height: 34px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20,20,20,.45), transparent); }
+.sheet-photo.is-cut figcaption { position: relative; z-index: 1; }
+
+@media (max-width: 600px) {
+  .panel + .panel > .panel-inner { border-radius: 26px 26px 0 0; }
+  .peek.is-cut { display: block; width: 130px; }
+  .peek-0.is-cut { left: -8px; bottom: -10px; }
+  .peek-1.is-cut { left: auto; right: 110px; bottom: -40px; }
+  .peek-2.is-cut { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .header { position: sticky; } #smooth-content { padding-top: 0; } }

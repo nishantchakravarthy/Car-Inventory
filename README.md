@@ -10,6 +10,8 @@ A pre-owned car dealership site for a fictional showroom in Bengaluru, with real
 - **Quick search**: pick a make, body type and budget, and the inventory filters to match.
 - **Inventory**: 13 real cars with photos, odometer readings, owner counts, prices and an EMI estimate. Filter by make, body, fuel and budget, then search, sort and save cars. GSAP Flip animates the grid as results change.
 - **Listing sheet**: a large photo, the full spec table, an inspection report, a finance estimate and a test-drive booking form.
+- **Motion**: GSAP ScrollSmoother scrolling, stacked-card transitions between sections, and a 3D Ferrari that drives in, brakes and turns as you scroll.
+- **Cut-out stickers**: `npm run build` first runs `scripts/cutouts.mjs`, which downloads each photo and removes its background (`@imgly/background-removal-node` + `sharp`). If that step fails, the site falls back to the original photos.
 - **EMI calculator**, a **trade-in form** and showroom details.
 
 ## Run it

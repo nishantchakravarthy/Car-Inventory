@@ -120,7 +120,7 @@ export function Footer() {
       </div>
       <details className="credits">
         <summary>Photo and model credits</summary>
-        <p>Car photos are from Wikimedia Commons, used under their free licences (see each file page). They show the same model as the listing, not the listed car itself. The 3D Ferrari 458 Italia model is by vicent091036 and comes from the three.js examples.</p>
+        <p>Car photos are from Wikimedia Commons, used under their free licences (see each file page); backgrounds are removed automatically at build time to make the stickers. They show the same model as the listing, not the listed car itself. The 3D Ferrari 458 Italia model is by vicent091036 and comes from the three.js examples.</p>
         <ul>
           {INVENTORY.map((c) => <li key={c.id}>{c.year} {c.name}: <a href={c.credit.url} target="_blank" rel="noopener noreferrer">{c.credit.author}</a></li>)}
           <li>3D model: <a href="https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6" target="_blank" rel="noopener noreferrer">vicent091036</a></li>

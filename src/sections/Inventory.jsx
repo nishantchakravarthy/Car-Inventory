@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { Flip } from 'gsap/Flip';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Doodle from '../components/Doodle.jsx';
+import { cutFor } from '../data/cuts.js';
 import { INVENTORY, MAKES, BODIES, FUELS, price, km, ordinal, emi } from '../data/inventory.js';
 
 gsap.registerPlugin(Flip, ScrollTrigger);
@@ -14,13 +15,26 @@ const PRICE_STEPS = [500000, 1000000, 1500000, 2500000, 5000000, 10000000, 15000
 
 function Card({ car, saved, onSave, onOpen }) {
   const [failed, setFailed] = useState(false);
+  const photo = useRef(null);
+  const tilt = useRef(null);
   const i = INVENTORY.indexOf(car);
+  const cut = cutFor(car);
+  // 3D tilt toward the cursor; the cut-out car lifts off the colour block.
+  const onMove = (e) => {
+    const el = photo.current;
+    if (!tilt.current) tilt.current = { rx: gsap.quickTo(el, 'rotationX', { duration: 0.5, ease: 'power3' }), ry: gsap.quickTo(el, 'rotationY', { duration: 0.5, ease: 'power3' }) };
+    const r = el.getBoundingClientRect();
+    tilt.current.rx(((e.clientY - r.top) / r.height - 0.5) * -10);
+    tilt.current.ry(((e.clientX - r.left) / r.width - 0.5) * 12);
+  };
+  const onLeave = () => { tilt.current?.rx(0); tilt.current?.ry(0); };
   return (
-    <article className="card" style={{ '--tone': TONES[i % TONES.length], '--tilt': `${i % 2 ? 1.6 : -1.4}deg` }}>
-      <button className="card-photo" onClick={() => onOpen(car)} aria-label={`Open ${car.year} ${car.name} ${car.variant}`}>
+    <article className="card" style={{ '--tone': TONES[i % TONES.length], '--tilt': `${i % 2 ? 1.6 : -1.4}deg` }} onPointerMove={onMove} onPointerLeave={onLeave}>
+      <button ref={photo} className={`card-photo ${cut && !failed ? 'is-cut' : ''}`} onClick={() => onOpen(car)} aria-label={`Open ${car.year} ${car.name} ${car.variant}`}>
+        {cut && !failed && <><span className="sun" aria-hidden="true" /><span className="ground" aria-hidden="true" /></>}
         {failed
           ? <span className="photo-missing">{car.make}</span>
-          : <img src={car.img} alt={`${car.year} ${car.name}`} loading="lazy" decoding="async" onError={() => setFailed(true)} />}
+          : <img src={cut || car.img} alt={`${car.year} ${car.name}`} loading="lazy" decoding="async" onError={() => setFailed(true)} />}
         {car.tag && <span className={`tag ${car.tag === 'Price drop' ? 'red' : ''}`}>{car.tag}</span>}
       </button>
       <button className={`save ${saved ? 'on' : ''}`} onClick={() => onSave(car.id)} aria-pressed={saved} aria-label={saved ? `Remove ${car.name} from saved` : `Save ${car.name}`}>

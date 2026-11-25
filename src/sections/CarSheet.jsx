@@ -1,6 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { inr, price, km, ordinal, emi } from '../data/inventory.js';
+import { cutFor } from '../data/cuts.js';
+import { lockScroll } from '../lib/smooth.js';
 
 const CHECKS = ['Engine and gearbox', 'Brakes and suspension', 'Electricals and AC', 'Body panels and paint depth', 'Tyres (all above 60%)', 'Flood and accident check'];
 
@@ -14,13 +16,15 @@ export default function CarSheet({ car, saved, onSave, onClose, startOnDrive = f
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.sheet-scrim', { opacity: 0 }, { opacity: 1, duration: 0.25 });
-      gsap.fromTo('.sheet', { xPercent: 100 }, { xPercent: 0, duration: 0.5, ease: 'power3.out' });
+      gsap.fromTo('.sheet', { xPercent: 100 }, { xPercent: 0, duration: 0.55, ease: 'power3.out' });
+      gsap.from('.sheet-photo img', { x: 220, rotation: 6, duration: 1, ease: 'expo.out', delay: 0.15 });
+      gsap.from('.sheet-body > *', { y: 24, autoAlpha: 0, duration: 0.5, stagger: 0.04, delay: 0.25, ease: 'power2.out' });
     }, root);
     root.current.querySelector('.sheet-close').focus();
     const esc = (e) => e.key === 'Escape' && close();
     window.addEventListener('keydown', esc);
-    document.documentElement.classList.add('locked');
-    return () => { ctx.revert(); window.removeEventListener('keydown', esc); document.documentElement.classList.remove('locked'); };
+    lockScroll(true);
+    return () => { ctx.revert(); window.removeEventListener('keydown', esc); lockScroll(false); };
   }, []);
 
   const close = () => {
@@ -45,8 +49,9 @@ export default function CarSheet({ car, saved, onSave, onClose, startOnDrive = f
         <button className="sheet-close" onClick={close} aria-label="Close">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
-        <figure className="sheet-photo">
-          <img src={car.imgLarge} alt={`${car.year} ${car.name} ${car.variant}`} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
+        <figure className={`sheet-photo ${cutFor(car) ? 'is-cut' : ''}`}>
+          {cutFor(car) && <span className="ground" aria-hidden="true" />}
+          <img src={cutFor(car) || car.imgLarge} alt={`${car.year} ${car.name} ${car.variant}`} onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
           <figcaption>Photo: <a href={car.credit.url} target="_blank" rel="noopener noreferrer">{car.credit.author}</a>, Wikimedia Commons. Representative of the model; the listed car is inspected in person.</figcaption>
         </figure>
 
