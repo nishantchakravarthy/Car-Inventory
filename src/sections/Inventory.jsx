@@ -10,7 +10,7 @@ gsap.registerPlugin(Flip, ScrollTrigger);
 
 export const START = { q: '', makes: [], body: 'all', fuel: 'all', max: Infinity, sort: 'recommended', saved: false };
 const SORTS = { recommended: 'Recommended', low: 'Price: low to high', high: 'Price: high to low', newest: 'Newest first', km: 'Lowest km' };
-const TONES = ['#ffd23f', '#7cc6fe', '#ff8f6b', '#7ee0b5', '#c3b5ff', '#ffb3d1'];
+const TONES = ['#ff8f6b', '#7cc6fe', '#ffd23f', '#7ee0b5', '#c3b5ff', '#ffb3d1'];
 const PRICE_STEPS = [500000, 1000000, 1500000, 2500000, 5000000, 10000000, 15000000, 20000000, Infinity];
 
 function Card({ car, saved, onSave, onOpen }) {

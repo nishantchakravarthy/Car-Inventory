@@ -47,7 +47,7 @@ const raw = [
     id: 'xuv700', make: 'Mahindra', model: 'XUV700', variant: 'AX7 L Diesel AT', year: 2023, km: 33800, fuel: 'Diesel', trans: 'Automatic',
     engine: '2.2 L mHawk diesel', power: 185, body: 'SUV', owners: 1, reg: 'KA-02', price: 2490000, segment: 'everyday',
     note: 'ADAS, Sony 3D audio, 7 seats. Comprehensive insurance till Aug 2027.',
-    photo: { file: 'A black Mahindra XUV700 SUV in Ashiana Brahmananda, Jamshedpur, India (Ank Kumar, Infosys Limited) 02.jpg', author: 'Ank Kumar' },
+    photo: { file: '2023 Mahindra XUV700 AX7L front.jpg', author: 'LuvsMG481' },
   },
   {
     id: 'creta', make: 'Hyundai', model: 'Creta', variant: 'SX(O) 1.5 IVT', year: 2024, km: 11200, fuel: 'Petrol', trans: 'Automatic',
