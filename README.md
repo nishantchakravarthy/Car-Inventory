@@ -43,3 +43,10 @@ public/
 - The Ferrari 458 Spider 3D model is by [vicent091036](https://sketchfab.com/models/57bf6cc56931426e87494f554df1dab6), taken from the three.js examples.
 - UI components are adapted from [React Bits](https://reactbits.dev) by David Haz.
 - Halden Motor House is fictional. Car specs are real, but prices, kilometres and owner counts are sample data.
+
+
+## License
+
+The site's code is released under the [MIT License](LICENSE).
+
+The car photos, the Ferrari 3D model and the React Bits components keep their own licenses and credits, listed under Credits above.
